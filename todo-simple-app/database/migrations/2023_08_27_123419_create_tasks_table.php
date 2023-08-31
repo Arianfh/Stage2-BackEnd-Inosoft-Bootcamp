@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('tasks', function (Blueprint $collection) {
+            $collection->id();
+            $collection->string('title');
+            $collection->string('description');
+            $collection->string('assigned')->default(null);
+            $collection->json('subtask');
+            $collection->time('created_at');
         });
     }
 
