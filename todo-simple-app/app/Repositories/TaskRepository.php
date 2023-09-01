@@ -6,7 +6,7 @@ use App\Models\Task;
 
 class TaskRepository {
 
-    private $tasks;
+    protected $tasks;
     
     public function __construct(Task $tasks)
     {
@@ -15,14 +15,12 @@ class TaskRepository {
     
     public function getAll()
     {
-        $tasks = $this->tasks->get([]);
-        return $tasks;
+        return $this->tasks->get([]);
     }
 
     public function getById(string $id)
     {
-        $tasks = $this->tasks->find(['_id'=>$id]);
-        return$tasks;
+        return $this->tasks->find('_id', $id);
     }
 
     public function create(array $data)
@@ -30,12 +28,9 @@ class TaskRepository {
         $dataSaved = [
             'title'=>$data['title'],
             'description'=>$data['description'],
-            'assigned'=>null,
-            'subtask'=>[],
-            'created_at'=>time()
+            'assigned'=>$data['assigned']
         ];
 
-        $id = $this->tasks->save($dataSaved);
-        return $id;
+        return $this->tasks->save($dataSaved);
     }
 }

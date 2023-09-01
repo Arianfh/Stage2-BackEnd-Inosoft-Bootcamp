@@ -7,11 +7,11 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    private TaskService $taskService;
+    protected $taskService;
 
-    public function __construct()
+    public function __construct(TaskService $taskService)
     {
-        $this->taskService = new TaskService();
+        $this->taskService = $taskService;
     }
 
     public function showTasks()
@@ -24,12 +24,14 @@ class TaskController extends Controller
     {
         $request->validate([
             'title'=>'required|string|min:3',
-            'description'=>'required|string'
+            'description'=>'required|string',
+            'assigned'=>'nullable'
         ]);
 
         $data = [
             'title'=>$request->post('title'),
-            'description'=>$request->post('description')
+            'description'=>$request->post('description'),
+            'assigned'=>$request->post('assigned')
         ];
 
         $taskId = $this->taskService->addTask($data);

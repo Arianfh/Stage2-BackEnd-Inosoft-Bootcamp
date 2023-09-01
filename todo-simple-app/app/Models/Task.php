@@ -16,11 +16,11 @@ class Task extends Model
     protected $filable = [
         'title',
         'description',
-        'assigned',
-        'created_at'
+        'assigned'
     ];
-    protected $casts = [
-        'subtask' => 'array'
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
     ];
-    protected $timestamps = false;
 }

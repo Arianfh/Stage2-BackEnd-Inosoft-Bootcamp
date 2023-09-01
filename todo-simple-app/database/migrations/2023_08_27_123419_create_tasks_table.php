@@ -18,8 +18,7 @@ return new class extends Migration
             $collection->string('title');
             $collection->string('description');
             $collection->string('assigned')->default(null);
-            $collection->json('subtask');
-            $collection->time('created_at');
+            $collection->timestamps();
         });
     }
 

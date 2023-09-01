@@ -6,28 +6,25 @@ use App\Repositories\TaskRepository;
 
 class TaskService {
 
-    private TaskRepository $taskRepository;
+    protected $taskRepository;
 
-    public function __construct()
+    public function __construct(TaskRepository $taskRepository)
     {
-        $this->taskRepository = new TaskRepository();
+        $this->taskRepository = $taskRepository;
     }
     
     public function getTasks()
     {
-        $tasks = $this->taskRepository->getAll();
-        return $tasks;
+        return $this->taskRepository->getAll();
     }
 
     public function getById(string $taskId)
     {
-        $tasks = $this->taskRepository->getById($taskId);
-        return $tasks;
+        return $this->taskRepository->getById($taskId);
     }
 
     public function addTask(array $data)
     {
-        $taskId = $this->taskRepository->create($data);
-        return $taskId;
+        return $this->taskRepository->create($data);
     }
 }
