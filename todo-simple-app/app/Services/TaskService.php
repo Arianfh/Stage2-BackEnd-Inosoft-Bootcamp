@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\TaskRepository;
+use Illuminate\Support\Facades\Validator;
+use InvalidArgumentException;
 
 class TaskService {
 
@@ -23,8 +25,21 @@ class TaskService {
         return $this->taskRepository->getById($taskId);
     }
 
-    public function addTask(array $data)
+    public function addTask($data)
     {
+        $validator = Validator::make($data, [
+            'title' => 'required',
+            'description' => 'required',
+            'assigned' => 'nullable'
+        ]);
+
+        if ($validator->fails()) {
+            throw new InvalidArgumentException($validator->errors()->first());
+        }
+
+        $result = $this->taskRepository->create($data);
+
+        return $result;
         return $this->taskRepository->create($data);
     }
 }

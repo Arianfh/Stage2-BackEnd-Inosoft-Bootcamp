@@ -13,14 +13,11 @@ class Task extends Model
     protected $connection = 'mongodb';
     protected $collection = 'tasks';
     protected $guarded = ['_id'];
-    protected $filable = [
+    protected $fillable = [
         'title',
         'description',
         'assigned'
     ];
 
-    protected $hidden = [
-        'created_at',
-        'updated_at'
-    ];
+    public $timestamps = false;
 }

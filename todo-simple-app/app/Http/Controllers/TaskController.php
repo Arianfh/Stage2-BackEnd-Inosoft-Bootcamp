@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\TaskService;
+use Exception;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -22,20 +23,23 @@ class TaskController extends Controller
 
     public function createTask(Request $request)
     {
-        $request->validate([
-            'title'=>'required|string|min:3',
-            'description'=>'required|string',
-            'assigned'=>'nullable'
+        $data = $request->only([
+            'title',
+            'description',
+            'assigned'
         ]);
 
-        $data = [
-            'title'=>$request->post('title'),
-            'description'=>$request->post('description'),
-            'assigned'=>$request->post('assigned')
-        ];
+        $result = ['status' => 200];
 
-        $taskId = $this->taskService->addTask($data);
-        $task = $this->taskService->getById($taskId);
-        return response()->json($task);
+        try {
+            $result['data'] = $this->taskService->addTask($data);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+        }
+
+        return response()->json($result, $result['status']);
     }
 }

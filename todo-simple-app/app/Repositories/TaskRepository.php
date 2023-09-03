@@ -23,14 +23,16 @@ class TaskRepository {
         return $this->tasks->find('_id', $id);
     }
 
-    public function create(array $data)
+    public function create($data)
     {
-        $dataSaved = [
-            'title'=>$data['title'],
-            'description'=>$data['description'],
-            'assigned'=>$data['assigned']
-        ];
+        $post = new $this->tasks;
 
-        return $this->tasks->save($dataSaved);
+        $post->title = $data['title'];
+        $post->description = $data['description'];
+        $post->assigned = $data['assigned'];
+
+        $post->save();
+
+        return $post->fresh();
     }
 }
